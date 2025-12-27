@@ -1,0 +1,28 @@
+.app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.user-name {
+  margin-left: 8px;
+  font-size: 14px;
+}
+
+.app-content {
+  min-height: calc(100vh - 64px);
+}
+
+mat-toolbar button {
+  margin-left: 8px;
+}

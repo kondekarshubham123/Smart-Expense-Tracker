@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1767278495360,
+  "timestamp": 1767278762384,
   "index": "/Smart-Expense-Tracker/index.html",
   "assetGroups": [
     {
@@ -94,7 +94,7 @@
     "/Smart-Expense-Tracker/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
     "/Smart-Expense-Tracker/index.html": "0684da68f4e4eb904a171f0cf4eb000fe03551f8",
     "/Smart-Expense-Tracker/main-2W5UYVDR.js": "7e23ee3431ba7738b67acf10fcdf2fd5a74b7012",
-    "/Smart-Expense-Tracker/manifest.webmanifest": "060142b4a55703da33b3abf04ba45cf4218316ab",
+    "/Smart-Expense-Tracker/manifest.webmanifest": "27873d527393888d8e723ec16d15a031433530e9",
     "/Smart-Expense-Tracker/styles-3O2U5IJG.css": "25ebccca967e663975b1c852388d80de54084cde"
   },
   "navigationUrls": [

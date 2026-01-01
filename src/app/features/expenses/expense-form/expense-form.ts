@@ -6,10 +6,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS, NativeDateAdapter } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ExpenseService, Expense } from '../../../core/services/expense';
+import { CurrencyService } from '../../../core/services/currency';
 import { Router } from '@angular/router';
 
 @Component({
@@ -26,6 +27,10 @@ import { Router } from '@angular/router';
     MatCardModule,
     MatSnackBarModule
   ],
+  providers: [ 
+    { provide: DateAdapter, useClass: NativeDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: 'en-US' }
+  ],
   templateUrl: './expense-form.html',
   styleUrl: './expense-form.scss',
 })
@@ -34,6 +39,7 @@ export class ExpenseForm implements OnInit {
   private expenseService = inject(ExpenseService);
   private snackBar = inject(MatSnackBar);
   private router = inject(Router);
+  currencyService = inject(CurrencyService);
 
   expense = input<Expense | null>(null);
   expenseForm: FormGroup;

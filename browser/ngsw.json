@@ -1,0 +1,89 @@
+{
+  "configVersion": 1,
+  "timestamp": 1767269171694,
+  "index": "/Smart-Expense-Tracker/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/Smart-Expense-Tracker/chunk-BCQL6UJR.js",
+        "/Smart-Expense-Tracker/chunk-DSLGRY72.js",
+        "/Smart-Expense-Tracker/chunk-G5Q34IRW.js",
+        "/Smart-Expense-Tracker/chunk-G5YMLLDJ.js",
+        "/Smart-Expense-Tracker/chunk-VXZIZDJQ.js",
+        "/Smart-Expense-Tracker/chunk-W2NPRIWI.js",
+        "/Smart-Expense-Tracker/favicon.ico",
+        "/Smart-Expense-Tracker/index.html",
+        "/Smart-Expense-Tracker/main-FUGP2ZYF.js",
+        "/Smart-Expense-Tracker/manifest.webmanifest",
+        "/Smart-Expense-Tracker/styles-OPUTW5UJ.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/Smart-Expense-Tracker/icons/icon-128x128.png",
+        "/Smart-Expense-Tracker/icons/icon-144x144.png",
+        "/Smart-Expense-Tracker/icons/icon-152x152.png",
+        "/Smart-Expense-Tracker/icons/icon-192x192.png",
+        "/Smart-Expense-Tracker/icons/icon-384x384.png",
+        "/Smart-Expense-Tracker/icons/icon-512x512.png",
+        "/Smart-Expense-Tracker/icons/icon-72x72.png",
+        "/Smart-Expense-Tracker/icons/icon-96x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/Smart-Expense-Tracker/chunk-BCQL6UJR.js": "e3ebeb044d7d1400aa2f8e9271c07c5cd86637b1",
+    "/Smart-Expense-Tracker/chunk-DSLGRY72.js": "80020f899f40609787fb0ba40abd34afa59ba15e",
+    "/Smart-Expense-Tracker/chunk-G5Q34IRW.js": "69b49e3096fa6b8c5d1d002b3ee2f96fa5d93726",
+    "/Smart-Expense-Tracker/chunk-G5YMLLDJ.js": "acddc9b725c416590e5692f57ac920c0e93e6324",
+    "/Smart-Expense-Tracker/chunk-VXZIZDJQ.js": "f71b11f7a116c72be7686696515776f6b2c6347c",
+    "/Smart-Expense-Tracker/chunk-W2NPRIWI.js": "8f9cb342753ead3913adb34903bd11db34f780b6",
+    "/Smart-Expense-Tracker/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
+    "/Smart-Expense-Tracker/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
+    "/Smart-Expense-Tracker/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
+    "/Smart-Expense-Tracker/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
+    "/Smart-Expense-Tracker/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
+    "/Smart-Expense-Tracker/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
+    "/Smart-Expense-Tracker/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
+    "/Smart-Expense-Tracker/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
+    "/Smart-Expense-Tracker/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
+    "/Smart-Expense-Tracker/index.html": "5995acf3afded7ef9b8594d69ebd989af14b2ef9",
+    "/Smart-Expense-Tracker/main-FUGP2ZYF.js": "edad06215cf3df21e1b1f74d44f80e7f841e9b6e",
+    "/Smart-Expense-Tracker/manifest.webmanifest": "060142b4a55703da33b3abf04ba45cf4218316ab",
+    "/Smart-Expense-Tracker/styles-OPUTW5UJ.css": "0918ee8e18cf383756264e2ddad6eea59484ea1f"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}

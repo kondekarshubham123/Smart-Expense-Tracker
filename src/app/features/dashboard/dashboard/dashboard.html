@@ -1,9 +1,49 @@
 <div class="dashboard-container">
   <div class="welcome-section">
-    <h1>Welcome back, {{ userName }}! 👋</h1>
-    <p>Start tracking your expenses and manage your budget</p>
+    <div class="welcome-header">
+      <div>
+        <h1>Welcome back, {{ userName }}! 👋</h1>
+        <p>Start tracking your expenses and manage your budget</p>
+      </div>
+    </div>
   </div>
 
+  @if (isLoading()) {
+    <!-- Loading Skeleton -->
+    <div class="loading-container">
+      <div class="stats-grid">
+        @for (item of [1, 2, 3, 4]; track item) {
+          <mat-card class="stat-card skeleton">
+            <mat-card-content>
+              <div class="skeleton-loader">
+                <div class="skeleton-icon"></div>
+                <div class="skeleton-text">
+                  <div class="skeleton-line"></div>
+                  <div class="skeleton-line short"></div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+      
+      <div class="charts-section">
+        @for (item of [1, 2]; track item) {
+          <mat-card class="skeleton">
+            <mat-card-content>
+              <div class="skeleton-chart"></div>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+      
+      <div class="loading-spinner">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Loading your dashboard...</p>
+      </div>
+    </div>
+  } @else {
+    <!-- Key Stats -->
   <div class="stats-grid">
     <mat-card class="stat-card">
       <mat-card-content>
@@ -12,8 +52,15 @@
         </div>
         <div class="stat-info">
           <h3>Total Expenses</h3>
-          <p class="stat-value">$0.00</p>
-          <span class="stat-label">This month</span>
+          <p class="stat-value">{{ totalExpenses() | currency:currencyService.getCurrencyCode():'symbol':'1.2-2':currencyService.getLocale() }}</p>
+          <span class="stat-label">
+            This month
+            @if (percentageChange() !== 0) {
+              <span [class.positive]="percentageChange() > 0" [class.negative]="percentageChange() < 0">
+                {{ percentageChange() > 0 ? '+' : '' }}{{ percentageChange() | number:'1.1-1' }}%
+              </span>
+            }
+          </span>
         </div>
       </mat-card-content>
     </mat-card>
@@ -25,8 +72,21 @@
         </div>
         <div class="stat-info">
           <h3>Transactions</h3>
-          <p class="stat-value">0</p>
+          <p class="stat-value">{{ transactionCount() }}</p>
           <span class="stat-label">This month</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>star</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>Top Category</h3>
+          <p class="stat-value">{{ topCategoryAmount() | currency:currencyService.getCurrencyCode():'symbol':'1.2-2':currencyService.getLocale() }}</p>
+          <span class="stat-label">{{ topCategory() }}</span>
         </div>
       </mat-card-content>
     </mat-card>
@@ -38,51 +98,198 @@
         </div>
         <div class="stat-info">
           <h3>Categories</h3>
-          <p class="stat-value">0</p>
+          <p class="stat-value">{{ categoryCount() }}</p>
           <span class="stat-label">Active</span>
         </div>
       </mat-card-content>
     </mat-card>
   </div>
 
-  <div class="action-section">
-    <mat-card>
+  <!-- Analytics Section -->
+  <div class="analytics-section">
+    <!-- Spending Trend -->
+    <mat-card class="chart-card trend-card">
       <mat-card-header>
-        <mat-card-title>Quick Actions</mat-card-title>
+        <mat-card-title>
+          <mat-icon>show_chart</mat-icon>
+          Spending Trend
+        </mat-card-title>
+        <mat-card-subtitle>Daily expenses this month</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <div class="action-buttons">
-          <button mat-raised-button color="primary">
-            <mat-icon>add</mat-icon>
-            Add Expense
-          </button>
-          <button mat-raised-button color="accent">
-            <mat-icon>category</mat-icon>
-            Manage Categories
-          </button>
-          <button mat-raised-button>
-            <mat-icon>assessment</mat-icon>
-            View Reports
-          </button>
-        </div>
+        @if (dailySpending().length > 0) {
+          <div class="chart-container">
+            <canvas baseChart
+              [data]="trendChartData"
+              [options]="trendChartOptions"
+              [type]="trendChartType">
+            </canvas>
+          </div>
+        } @else {
+          <div class="empty-chart">
+            <mat-icon>show_chart</mat-icon>
+            <p>No data available</p>
+          </div>
+        }
       </mat-card-content>
     </mat-card>
+
+    <!-- Charts Grid -->
+    <div class="charts-grid">
+      <!-- Category Distribution -->
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>pie_chart</mat-icon>
+            Category Breakdown
+          </mat-card-title>
+          <mat-card-subtitle>Spending by category</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          @if (categoryData().length > 0) {
+            <div class="chart-container">
+              <canvas baseChart
+                [data]="categoryChartData"
+                [options]="categoryChartOptions"
+                [type]="categoryChartType">
+              </canvas>
+            </div>
+          } @else {
+            <div class="empty-chart">
+              <mat-icon>pie_chart</mat-icon>
+              <p>No categories yet</p>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Payment Methods -->
+      <mat-card class="chart-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>payment</mat-icon>
+            Payment Methods
+          </mat-card-title>
+          <mat-card-subtitle>Distribution by payment type</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          @if (paymentMethodData().length > 0) {
+            <div class="chart-container">
+              <canvas baseChart
+                [data]="paymentChartData"
+                [options]="paymentChartOptions"
+                [type]="paymentChartType">
+              </canvas>
+            </div>
+          } @else {
+            <div class="empty-chart">
+              <mat-icon>payment</mat-icon>
+              <p>No payment data</p>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 
-  <div class="info-section">
-    <mat-card>
+  <!-- Insights Grid -->
+  <div class="insights-grid">
+    <!-- Top Categories -->
+    <mat-card class="insight-card">
       <mat-card-header>
-        <mat-card-title>Getting Started</mat-card-title>
+        <mat-card-title>
+          <mat-icon>star</mat-icon>
+          Top Categories
+        </mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>Welcome to your expense tracker! Here's what you can do:</p>
-        <ul>
-          <li>Add and categorize your expenses</li>
-          <li>Track spending patterns over time</li>
-          <li>Set budgets and receive alerts</li>
-          <li>Export your data for analysis</li>
-        </ul>
+        @if (categoryData().length > 0) {
+          <div class="category-list">
+            @for (category of categoryData().slice(0, 5); track category.name) {
+              <div class="category-item">
+                <div class="category-info">
+                  <mat-icon>{{ getCategoryIcon(category.name) }}</mat-icon>
+                  <div>
+                    <strong>{{ category.name }}</strong>
+                    <small>{{ category.count }} transactions</small>
+                  </div>
+                </div>
+                <div class="category-amount">
+                  <strong>{{ formatCurrency(category.amount) }}</strong>
+                  <small>{{ category.percentage | number:'1.0-0' }}%</small>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="empty-state">
+            <p>No category data available</p>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Top Expenses -->
+    <mat-card class="insight-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>local_fire_department</mat-icon>
+          Top Expenses
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        @if (topExpenses().length > 0) {
+          <div class="expense-list">
+            @for (expense of topExpenses(); track expense.id) {
+              <div class="expense-item">
+                <div class="expense-info">
+                  <strong>{{ expense.title }}</strong>
+                  <small>{{ formatDate(expense.date) }} • {{ expense.category }}</small>
+                </div>
+                <div class="expense-amount">
+                  {{ formatCurrency(expense.amount) }}
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="empty-state">
+            <p>No expenses yet</p>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Payment Methods Stats -->
+    <mat-card class="insight-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>credit_card</mat-icon>
+          Payment Methods
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        @if (paymentMethodData().length > 0) {
+          <div class="payment-list">
+            @for (payment of paymentMethodData(); track payment.method) {
+              <div class="payment-item">
+                <div class="payment-info">
+                  <strong>{{ payment.method }}</strong>
+                  <small>{{ payment.count }} transactions</small>
+                </div>
+                <div class="payment-amount">
+                  {{ formatCurrency(payment.amount) }}
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="empty-state">
+            <p>No payment data available</p>
+          </div>
+        }
       </mat-card-content>
     </mat-card>
   </div>
+  }
 </div>

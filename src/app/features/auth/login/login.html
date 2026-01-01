@@ -1,68 +1,128 @@
 <div class="login-container">
-  <mat-card class="login-card">
-    <mat-card-header>
-      <mat-card-title>Welcome Back</mat-card-title>
-      <mat-card-subtitle>Sign in to continue to Expense Tracker</mat-card-subtitle>
-    </mat-card-header>
+  <!-- Decorative Background -->
+  <div class="background-decoration">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+    <div class="floating-shape shape-4"></div>
+  </div>
 
-    <mat-card-content>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" formControlName="email" placeholder="your@email.com">
-          <mat-icon matPrefix>email</mat-icon>
-          @if (loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched) {
-            <mat-error>Email is required</mat-error>
-          }
-          @if (loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched) {
-            <mat-error>Please enter a valid email</mat-error>
-          }
-        </mat-form-field>
+  <!-- Left Side - Branding & Info -->
+  <div class="login-left">
+    <div class="brand-section">
+      <div class="logo">
+        <mat-icon>account_balance_wallet</mat-icon>
+        <h1>{{ appName }}</h1>
+      </div>
+      <h2 class="welcome-title">Welcome Back!</h2>
+      <p class="welcome-text">
+        Track your expenses, understand your spending patterns, and achieve your financial goals.
+      </p>
+      
+      <div class="features-list">
+        <div class="feature-item">
+          <mat-icon>check_circle</mat-icon>
+          <span>Track expenses in real-time</span>
+        </div>
+        <div class="feature-item">
+          <mat-icon>check_circle</mat-icon>
+          <span>Beautiful analytics dashboard</span>
+        </div>
+        <div class="feature-item">
+          <mat-icon>check_circle</mat-icon>
+          <span>Multi-currency support</span>
+        </div>
+        <div class="feature-item">
+          <mat-icon>check_circle</mat-icon>
+          <span>Secure cloud sync</span>
+        </div>
+      </div>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Password</mat-label>
-          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
-          <mat-icon matPrefix>lock</mat-icon>
-          <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
-            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+      <div class="testimonial">
+        <p class="quote">"{{ appName }} helped me save 30% more every month by making expense tracking effortless!"</p>
+        <p class="author">- Sarah Johnson</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side - Login Form -->
+  <div class="login-right">
+    <mat-card class="login-card">
+      <div class="card-header">
+        <h2>Sign In</h2>
+        <p>Enter your credentials to access your account</p>
+      </div>
+
+      <mat-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email Address</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="you@example.com">
+            <mat-icon matPrefix>email</mat-icon>
+            @if (loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched) {
+              <mat-error>Email is required</mat-error>
+            }
+            @if (loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched) {
+              <mat-error>Please enter a valid email</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+            <mat-icon matPrefix>lock</mat-icon>
+            <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            @if (loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched) {
+              <mat-error>Password is required</mat-error>
+            }
+            @if (loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched) {
+              <mat-error>Password must be at least 6 characters</mat-error>
+            }
+          </mat-form-field>
+
+          @if (errorMessage) {
+            <div class="error-message">
+              <mat-icon>error</mat-icon>
+              <span>{{ errorMessage }}</span>
+            </div>
+          }
+
+          <button mat-raised-button color="primary" type="submit" class="full-width submit-button" 
+                  [disabled]="loginForm.invalid || loading">
+            @if (loading) {
+              <mat-spinner diameter="20"></mat-spinner>
+            } @else {
+              <ng-container>
+                <span>Sign In</span>
+                <mat-icon>arrow_forward</mat-icon>
+              </ng-container>
+            }
           </button>
-          @if (loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched) {
-            <mat-error>Password is required</mat-error>
-          }
-          @if (loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched) {
-            <mat-error>Password must be at least 6 characters</mat-error>
-          }
-        </mat-form-field>
 
-        @if (errorMessage) {
-          <div class="error-message">
-            {{ errorMessage }}
+          <div class="divider">
+            <span>OR CONTINUE WITH</span>
           </div>
-        }
 
-        <button mat-raised-button color="primary" type="submit" class="full-width submit-button" 
-                [disabled]="loginForm.invalid || loading">
-          @if (loading) {
-            <mat-spinner diameter="20"></mat-spinner>
-          } @else {
-            Sign In
-          }
-        </button>
+          <button mat-stroked-button type="button" class="full-width google-button" 
+                  (click)="loginWithGoogle()" [disabled]="loading">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
+            <span>Google</span>
+          </button>
 
-        <div class="divider">
-          <span>OR</span>
-        </div>
-
-        <button mat-stroked-button type="button" class="full-width google-button" 
-                (click)="loginWithGoogle()" [disabled]="loading">
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
-          Continue with Google
-        </button>
-
-        <div class="links">
-          <a routerLink="/register">Don't have an account? Sign up</a>
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
+          <div class="links">
+            <a routerLink="/">
+              <mat-icon>arrow_back</mat-icon>
+              Back to Home
+            </a>
+            <a routerLink="/register" class="primary-link">
+              Create Account
+              <mat-icon>arrow_forward</mat-icon>
+            </a>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

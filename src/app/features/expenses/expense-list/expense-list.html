@@ -1,1 +1,167 @@
-<p>expense-list works!</p>
+<div class="expenses-container">
+  <!-- Expenses List -->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Your Expenses</mat-card-title>
+      <mat-card-subtitle>
+        Showing {{ expenses().length }} of {{ totalRecords() }} expenses | 
+        Page Total: <strong>{{ totalAmount() | currency:currencyService.getCurrencyCode():'symbol':'1.2-2':currencyService.getLocale() }}</strong>
+      </mat-card-subtitle>
+    </mat-card-header>
+  
+    <mat-card-content>
+      <!-- Filters Section -->
+      <div class="filters-section">
+        <div class="filters-grid">
+          <!-- Search -->
+          <mat-form-field appearance="outline">
+            <mat-label>Search</mat-label>
+            <input matInput [formControl]="searchControl" placeholder="Search by title or description">
+            <mat-icon matPrefix>search</mat-icon>
+          </mat-form-field>
+          
+          <!-- Category Filter -->
+          <mat-form-field appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select [formControl]="categoryControl">
+              <mat-option value="">All Categories</mat-option>
+              @for (category of categories; track category) {
+                <mat-option [value]="category">{{ category }}</mat-option>
+              }
+            </mat-select>
+            <mat-icon matPrefix>category</mat-icon>
+          </mat-form-field>
+          
+          <!-- Start Date -->
+          <mat-form-field appearance="outline">
+            <mat-label>From Date</mat-label>
+            <input matInput [matDatepicker]="startPicker" [formControl]="startDateControl">
+            <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
+          
+          <!-- End Date -->
+          <mat-form-field appearance="outline">
+            <mat-label>To Date</mat-label>
+            <input matInput [matDatepicker]="endPicker" [formControl]="endDateControl">
+            <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        
+        <div class="filter-actions">
+          <button mat-stroked-button color="warn" (click)="clearFilters()">
+            <mat-icon>clear</mat-icon>
+            Clear Filters
+          </button>
+        </div>
+      </div>
+    @if (isLoading()) {
+      <div class="loading-container">
+        <div class="skeleton-table">
+          @for (row of [1, 2, 3, 4, 5]; track row) {
+            <div class="skeleton-row">
+              <div class="skeleton-cell"></div>
+              <div class="skeleton-cell"></div>
+              <div class="skeleton-cell"></div>
+              <div class="skeleton-cell"></div>
+              <div class="skeleton-cell short"></div>
+            </div>
+          }
+        </div>
+        <div class="loading-spinner">
+          <mat-spinner diameter="40"></mat-spinner>
+          <p>Loading expenses...</p>
+        </div>
+      </div>
+    } @else if (expenses().length === 0) {
+      <div class="empty-state">
+        <mat-icon>receipt_long</mat-icon>
+        <p>No expenses yet. Start tracking by adding your first expense!</p>
+      </div>
+    } @else {
+      <div class="table-container">
+        <table mat-table [dataSource]="expenses()" class="expenses-table">
+          <!-- Date Column -->
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let expense">{{ formatDate(expense.date) }}</td>
+          </ng-container>
+
+          <!-- Title Column -->
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Title</th>
+            <td mat-cell *matCellDef="let expense">
+              <div class="title-cell">
+                <strong>{{ expense.title }}</strong>
+                @if (expense.description) {
+                  <small class="description">{{ expense.description }}</small>
+                }
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Category Column -->
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Category</th>
+            <td mat-cell *matCellDef="let expense">
+              <mat-chip [color]="getCategoryColor(expense.category)" highlighted>
+                {{ expense.category }}
+              </mat-chip>
+            </td>
+          </ng-container>
+
+          <!-- Payment Method Column -->
+          <ng-container matColumnDef="paymentMethod">
+            <th mat-header-cell *matHeaderCellDef>Payment</th>
+            <td mat-cell *matCellDef="let expense">
+              <span class="payment-method">
+                <mat-icon class="payment-icon">{{ getPaymentIcon(expense.paymentMethod) }}</mat-icon>
+                {{ expense.paymentMethod }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Amount Column -->
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let expense">
+              <strong class="amount">{{ expense.amount | currency:currencyService.getCurrencyCode():'symbol':'1.2-2':currencyService.getLocale() }}</strong>
+            </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let expense">
+              <button mat-icon-button color="primary" 
+                      (click)="editExpense(expense)"
+                      matTooltip="Edit expense">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" 
+                      (click)="deleteExpense(expense)"
+                      matTooltip="Delete expense">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+      
+      <!-- Pagination -->
+      <mat-paginator 
+        [length]="totalRecords()"
+        [pageSize]="pageSize()"
+        [pageIndex]="pageIndex()"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageChange($event)"
+        showFirstLastButtons>
+      </mat-paginator>
+    }
+  </mat-card-content>
+  </mat-card>
+</div>

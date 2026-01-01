@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth';
+import { APP_NAME } from '../../../core/constants/app.constants';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +32,7 @@ export class Login {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  appName = APP_NAME;
   loginForm: FormGroup;
   loading = false;
   errorMessage = '';

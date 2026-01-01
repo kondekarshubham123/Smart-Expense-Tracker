@@ -1,0 +1,151 @@
+<div class="landing-page">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          Take Control of Your
+          <span class="gradient-text">Financial Future</span>
+        </h1>
+        <p class="hero-subtitle">
+          Join thousands of users who track their expenses, understand their spending, 
+          and save more money with {{ appName }} - the smart expense tracking app.
+        </p>
+        <div class="hero-actions">
+          <button mat-raised-button color="primary" class="cta-button" (click)="navigateToRegister()">
+            Get Started Free
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+          <button mat-stroked-button class="secondary-button" (click)="navigateToLogin()">
+            Sign In
+            <mat-icon>login</mat-icon>
+          </button>
+        </div>
+        <div class="trust-indicators">
+          <div class="trust-item">
+            <mat-icon>verified_user</mat-icon>
+            <span>100% Secure</span>
+          </div>
+          <div class="trust-item">
+            <mat-icon>cloud_done</mat-icon>
+            <span>Cloud Synced</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="floating-card card-1">
+          <mat-icon>account_balance_wallet</mat-icon>
+          <div class="card-content">
+            <span class="card-label">Total Expenses</span>
+            <span class="card-value">₹45,234</span>
+          </div>
+        </div>
+        <div class="floating-card card-2">
+          <mat-icon>trending_down</mat-icon>
+          <div class="card-content">
+            <span class="card-label">Saved This Month</span>
+            <span class="card-value success">+₹8,500</span>
+          </div>
+        </div>
+        <div class="floating-card card-3">
+          <mat-icon>insights</mat-icon>
+          <div class="card-content">
+            <span class="card-label">Budget Status</span>
+            <span class="card-value">85% Used</span>
+          </div>
+        </div>
+        <div class="hero-circle circle-1"></div>
+        <div class="hero-circle circle-2"></div>
+        <div class="hero-circle circle-3"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="stats-container">
+      @for (stat of stats; track stat.label) {
+        <div class="stat-item" [class.loading]="statsLoading">
+          <div class="stat-value">{{ stat.value }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="section-header">
+      <h2 class="section-title">Everything You Need to Track Expenses</h2>
+      <p class="section-subtitle">Powerful features designed to make expense tracking effortless</p>
+    </div>
+    <div class="features-grid">
+      @for (feature of features; track feature.title) {
+        <mat-card class="feature-card">
+          <div class="feature-icon">
+            <mat-icon>{{ feature.icon }}</mat-icon>
+          </div>
+          <h3 class="feature-title">{{ feature.title }}</h3>
+          <p class="feature-description">{{ feature.description }}</p>
+        </mat-card>
+      }
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="benefits-section">
+    <div class="section-header">
+      <h2 class="section-title">Why Track Your Expenses?</h2>
+      <p class="section-subtitle">Discover the life-changing benefits of expense tracking</p>
+    </div>
+    <div class="benefits-list">
+      @for (benefit of benefits; track benefit.number) {
+        <div class="benefit-item">
+          <div class="benefit-number">{{ benefit.number }}</div>
+          <div class="benefit-content">
+            <h3 class="benefit-title">{{ benefit.title }}</h3>
+            <p class="benefit-description">{{ benefit.description }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2 class="cta-title">Start Your Financial Journey Today</h2>
+      <p class="cta-subtitle">
+        Join thousands of users who have transformed their financial lives. 
+        It's free, secure, and takes less than 30 seconds to get started.
+      </p>
+      <div class="cta-buttons">
+        <button mat-raised-button color="primary" class="cta-button" (click)="navigateToRegister()">
+          Create Free Account
+          <mat-icon>rocket_launch</mat-icon>
+        </button>
+      </div>
+      <p class="cta-note">
+        <mat-icon>lock</mat-icon>
+        No credit card required • Free forever • Cancel anytime
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="landing-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>{{ appName }}</h3>
+        <p>Smart expense tracking for everyone</p>
+      </div>
+      <div class="footer-links">
+        <a routerLink="/login">Sign In</a>
+        <a routerLink="/register">Sign Up</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; {{ currentYear }} {{ appName }}. Built with ❤️ for better financial habits.</p>
+    </div>
+  </footer>
+</div>

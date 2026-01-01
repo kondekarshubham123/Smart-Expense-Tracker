@@ -1,6 +1,6 @@
 @if (!isAuthPage && authService.currentUser()) {
   <mat-toolbar color="primary" class="app-toolbar">
-    <span class="app-title">💰 Expense Tracker</span>
+    <span class="app-title" (click)="navigateToHome()">💰 Expense Tracker</span>
     <span class="spacer"></span>
     
     <button mat-button [matMenuTriggerFor]="userMenu">
@@ -14,6 +14,10 @@
         <span>{{ authService.currentUser()?.email }}</span>
       </button>
       <mat-divider></mat-divider>
+      <button mat-menu-item (click)="navigateToProfile()">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </button>
       <button mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
         <span>Logout</span>
@@ -25,3 +29,45 @@
 <div class="app-content">
   <router-outlet></router-outlet>
 </div>
+
+<!-- Global Speed Dial FAB for authenticated users -->
+@if (!isAuthPage && authService.currentUser()) {
+  <div class="speed-dial-container">
+    <!-- Backdrop -->
+    @if (isSpeedDialOpen()) {
+      <div class="speed-dial-backdrop" (click)="toggleSpeedDial()"></div>
+    }
+    
+    <!-- Speed Dial Actions -->
+    <div class="speed-dial-actions" [class.open]="isSpeedDialOpen()">
+      <!-- Add Expense Button -->
+      <button mat-mini-fab 
+              color="accent" 
+              class="speed-dial-action"
+              (click)="openAddExpenseDialog()"
+              matTooltip="Add Expense"
+              matTooltipPosition="left">
+        <mat-icon>add</mat-icon>
+      </button>
+      
+      <!-- View Expenses Button -->
+      <button mat-mini-fab 
+              color="accent" 
+              class="speed-dial-action"
+              (click)="navigateToExpenses()"
+              matTooltip="View Expenses"
+              matTooltipPosition="left">
+        <mat-icon>list</mat-icon>
+      </button>
+    </div>
+    
+    <!-- Main FAB Button -->
+    <button mat-fab 
+            color="primary" 
+            class="global-fab"
+            (click)="toggleSpeedDial()"
+            [class.open]="isSpeedDialOpen()">
+      <mat-icon>{{ isSpeedDialOpen() ? 'close' : 'menu' }}</mat-icon>
+    </button>
+  </div>
+}

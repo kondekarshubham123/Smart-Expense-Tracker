@@ -11,7 +11,6 @@ import {
   sendPasswordResetEmail,
   updateProfile
 } from '@angular/fire/auth';
-
 import { Observable, from } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -22,6 +21,7 @@ export class AuthService {
   private auth = inject(Auth);
   private router = inject(Router);
 
+  // Current user observable
   user$ = user(this.auth);
   currentUser = signal<User | null>(null);
 

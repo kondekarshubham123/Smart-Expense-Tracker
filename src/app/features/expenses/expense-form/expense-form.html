@@ -1,1 +1,92 @@
-<p>expense-form works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Add New Expense</mat-card-title>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" placeholder="e.g., Grocery Shopping">
+          @if (title?.invalid && title?.touched) {
+            <mat-error>
+              @if (title?.errors?.['required']) {
+                Title is required
+              }
+              @if (title?.errors?.['minlength']) {
+                Title must be at least 3 characters
+              }
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Amount</mat-label>
+          <input matInput type="number" formControlName="amount" placeholder="0.00">
+          <span matTextPrefix>$&nbsp;</span>
+          @if (amount?.invalid && amount?.touched) {
+            <mat-error>
+              @if (amount?.errors?.['required']) {
+                Amount is required
+              }
+              @if (amount?.errors?.['min']) {
+                Amount must be greater than 0
+              }
+            </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category">
+            @for (cat of categories; track cat) {
+              <mat-option [value]="cat">{{ cat }}</mat-option>
+            }
+          </mat-select>
+          @if (category?.invalid && category?.touched) {
+            <mat-error>Category is required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Payment Method</mat-label>
+          <mat-select formControlName="paymentMethod">
+            @for (method of paymentMethods; track method) {
+              <mat-option [value]="method">{{ method }}</mat-option>
+            }
+          </mat-select>
+          @if (paymentMethod?.invalid && paymentMethod?.touched) {
+            <mat-error>Payment method is required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="date">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description (Optional)</mat-label>
+          <textarea matInput formControlName="description" rows="3" placeholder="Add notes..."></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" 
+                [disabled]="expenseForm.invalid || isSubmitting()">
+          @if (isSubmitting()) {
+            <span>{{ expense() ? 'Updating...' : 'Adding...' }}</span>
+          } @else {
+            <span>{{ expense() ? 'Update Expense' : 'Add Expense' }}</span>
+          }
+        </button>
+        <button mat-button type="button" (click)="resetForm()">
+          Reset
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,292 @@
+.expenses-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+mat-card {
+  margin: 0;
+  width: 100%;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.filters-section {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  
+  .filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+    
+    mat-form-field {
+      width: 100%;
+    }
+  }
+  
+  .filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+}
+
+.loading-container,
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: rgba(0, 0, 0, 0.6);
+
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+}
+
+.table-container {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.expenses-table {
+  width: 100%;
+  
+  tr {
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background-color: rgba(25, 118, 210, 0.04);
+    }
+  }
+
+  th {
+    font-weight: 600;
+  }
+
+  .title-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .description {
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 0.85rem;
+    }
+  }
+
+  .amount {
+    color: #1976d2;
+    font-size: 1.1rem;
+  }
+  
+  .payment-method {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    
+    .payment-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      color: #666;
+    }
+  }
+}
+
+mat-chip {
+  font-size: 0.85rem;
+}
+
+mat-paginator {
+  border-top: 1px solid #e0e0e0;
+  margin-top: 1rem;
+}
+
+// Mobile responsive
+@media (max-width: 768px) {
+  .expenses-container {
+    padding: 1rem 0.75rem;
+    gap: 1.5rem;
+  }
+  
+  .filters-section {
+    padding: 0.75rem;
+    
+    .filters-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .filter-actions {
+      justify-content: stretch;
+      
+      button {
+        width: 100%;
+      }
+    }
+  }
+  
+  mat-card {
+    mat-card-header {
+      mat-card-title {
+        font-size: 1.25rem;
+      }
+      
+      mat-card-subtitle {
+        font-size: 0.875rem;
+      }
+    }
+  }
+  
+  .table-container {
+    margin-top: 0.5rem;
+  }
+  
+  .expenses-table {
+    font-size: 0.875rem;
+    
+    th, td {
+      padding: 8px 4px;
+    }
+    
+    .title-cell {
+      gap: 0.125rem;
+      
+      strong {
+        font-size: 0.875rem;
+      }
+      
+      .description {
+        font-size: 0.75rem;
+      }
+    }
+    
+    .amount {
+      font-size: 1rem;
+    }
+  }
+  
+  mat-chip {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .expenses-container {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .loading-container,
+  .empty-state {
+    padding: 2rem 1rem;
+    
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+    }
+    
+    p {
+      font-size: 0.875rem;
+    }
+  }
+  
+  .expenses-table {
+    th, td {
+      padding: 6px 2px;
+      
+      &:first-child {
+        padding-left: 4px;
+      }
+      
+      &:last-child {
+        padding-right: 4px;
+      }
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  gap: 16px;
+  
+  p {
+    color: #666;
+    font-size: 14px;
+  }
+}
+
+.skeleton-table {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-row {
+  display: flex;
+  gap: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.skeleton-cell {
+  height: 20px;
+  flex: 1;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+  
+  &.short {
+    flex: 0.5;
+  }
+}

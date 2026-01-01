@@ -118,6 +118,14 @@ import { Expense } from '../../../core/services/expense';
           display: none;
         }
       }
+
+      .cdk-overlay-container { 
+        z-index: 10000 !important;
+      }
+
+      .mat-datepicker-popup {
+        z-index: 10001 !important;
+      }
     }
   `]
 })

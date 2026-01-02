@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1767281437944,
+  "timestamp": 1767320727232,
   "index": "/Smart-Expense-Tracker/index.html",
   "assetGroups": [
     {
@@ -92,9 +92,9 @@
     "/Smart-Expense-Tracker/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
     "/Smart-Expense-Tracker/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
     "/Smart-Expense-Tracker/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/Smart-Expense-Tracker/index.html": "d16d731c01c3184fb1e771282c674853e48abd05",
+    "/Smart-Expense-Tracker/index.html": "f72f164c4d143d5c2120541641fdd0099e3199f3",
     "/Smart-Expense-Tracker/main-J2SDB45F.js": "211afeeb628c58c6c2bb7640075c015eb419aae7",
-    "/Smart-Expense-Tracker/manifest.webmanifest": "84694c1c90a3f275a5e396170c6119c6b416b3dd",
+    "/Smart-Expense-Tracker/manifest.webmanifest": "91ca6e07fbcb7b0fcd2939f6fc7110eb5193d35a",
     "/Smart-Expense-Tracker/styles-3O2U5IJG.css": "25ebccca967e663975b1c852388d80de54084cde"
   },
   "navigationUrls": [

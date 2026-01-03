@@ -91,9 +91,13 @@ export class ExpenseForm implements OnInit {
       this.isSubmitting.set(true);
       
       const formValue = this.expenseForm.value;
+      const selectedDate: Date = formValue.date;
+      // format date in local timezone to avoid timezone shift
+      const localDateString = `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}-${selectedDate.getDate().toString().padStart(2, '0')}`;
+
       const expenseData = {
         ...formValue,
-        date: formValue.date.toISOString().split('T')[0]
+        date: localDateString
       };
 
       const expenseToEdit = this.expense();

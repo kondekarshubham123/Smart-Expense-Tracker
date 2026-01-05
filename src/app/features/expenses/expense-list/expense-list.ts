@@ -118,11 +118,13 @@ export class ExpenseList implements OnInit {
     }
     
     if (this.startDateControl.value) {
-      filters.startDate = this.startDateControl.value.toISOString().split('T')[0];
+      const startDate = this.startDateControl.value;
+      filters.startDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
     }
     
     if (this.endDateControl.value) {
-      filters.endDate = this.endDateControl.value.toISOString().split('T')[0];
+      const endDate = this.endDateControl.value;
+      filters.endDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
     }
     
     return filters;

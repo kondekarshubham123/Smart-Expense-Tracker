@@ -58,7 +58,8 @@ export class ExpenseForm implements OnInit {
     'UPI',
     'Cash',
     'Credit Card',
-    'Debit Card'
+    'Debit Card',
+    'Points'
   ];
 
   constructor() {

@@ -249,7 +249,8 @@ export class ExpenseList implements OnInit {
       'UPI': 'qr_code_scanner',
       'Cash': 'payments',
       'Credit Card': 'credit_card',
-      'Debit Card': 'credit_card'
+      'Debit Card': 'credit_card',
+      'Points': 'star_rate'
     };
     return icons[paymentMethod] || 'payment';
   }

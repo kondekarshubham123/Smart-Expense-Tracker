@@ -36,9 +36,52 @@ export class App {
   router = inject(Router);
   private dialog = inject(MatDialog);
   isSpeedDialOpen = signal<boolean>(false);
+  showInstallButton = signal<boolean>(false);
+  private deferredPrompt: any = null;
 
   constructor() {
     this.titleService.setTitle(`${APP_NAME} - Smart Expense Tracker`);
+    this.setupPWAInstallPrompt();
+  }
+
+  private setupPWAInstallPrompt() {
+    window.addEventListener('beforeinstallprompt', (event) => { 
+      // Prevent the mini-infobar from appearing on mobile
+      event.preventDefault();
+      // Stash the event so it can be triggered later.
+      this.deferredPrompt = event;
+      // Show the install button
+      this.showInstallButton.set(true);
+    });
+
+    window.addEventListener('appinstalled', () => { 
+      this.showInstallButton.set(false);
+      this.deferredPrompt = null;
+    });
+  }
+
+  async installPWA() {
+  
+    if(!this.deferredPrompt) {
+      console.log('No deferred prompt available');
+      return;
+    }
+
+    // Show the install prompt
+    this.deferredPrompt.prompt();
+
+    // Wait for the user to respond to the prompt
+    const { outcome } = await this.deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      console.log('User accepted the install prompt');
+    } else {
+      console.log('User dismissed the install prompt');
+    }
+
+    // Clear the deferred prompt variable
+    this.deferredPrompt = null;
+    // Hide the install button
+    this.showInstallButton.set(false);
   }
 
   navigateToHome() {

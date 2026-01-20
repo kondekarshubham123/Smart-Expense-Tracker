@@ -3,6 +3,14 @@
     <span class="app-title" (click)="navigateToHome()">💰 Expense Tracker</span>
     <span class="spacer"></span>
     
+    @if(showInstallButton()){
+      <button mat-button (click)="installPWA()" class="install-button" matTooltip="Install App">
+        <mat-icon>get_app</mat-icon>
+        <span class="install-text">Get App</span>
+      </button>
+    }
+
+
     <button mat-button [matMenuTriggerFor]="userMenu">
       <mat-icon>account_circle</mat-icon>
       <span class="user-name">{{ authService.currentUser()?.displayName || authService.currentUser()?.email }}</span>
